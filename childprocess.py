@@ -78,7 +78,7 @@ class ChildProcess():
 			return sys.stdin, None
 		elif stdin == ChildProcessIO.NULL:
 			self._stdin_writeable = False
-			return os.devnull, None
+			return open(os.devnull, 'r'), None
 		elif isinstance(stdin, io.IOBase):
 			self._stdin_writeable = False
 			return stdin, None
@@ -95,7 +95,7 @@ class ChildProcess():
 			return sys.stdout
 		elif stdout == ChildProcessIO.NULL:
 			self._stdout_readable = False
-			return os.devnull
+			return open(os.devnull, 'w')
 		else:
 			self._stdout_readable = False
 			return stdout
@@ -112,7 +112,7 @@ class ChildProcess():
 			return sys.stderr
 		elif stderr == ChildProcessIO.NULL:
 			self._stderr_readable = False
-			return os.devnull
+			return open(os.devnull, 'w')
 		else:
 			self._stderr_readable = False
 			return stderr
