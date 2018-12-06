@@ -22,6 +22,7 @@ class ChildProcess():
 		popen_stdout = self._make_stdout(stdout)
 		popen_stderr = self._make_stderr(stderr)
 
+		self._is_stopped = False
 		self._popen = subprocess.Popen(
 			args, cwd=cwd, env=env,
 			stdin=popen_stdin, stdout=popen_stdout, stderr=popen_stderr)
@@ -47,7 +48,8 @@ class ChildProcess():
 
 	@property
 	def exit_code(self):
-		return self._popen.poll()
+		self._popen.poll()
+		return self._popen.returncode
 	
 	@property
 	def stdin(self):
@@ -138,7 +140,7 @@ class ChildProcess():
 		return not self.is_finished() and self._is_stopped
 
 	def is_finished(self):
-		return self.exit_code is None
+		return self.exit_code is not None
 
 	def wait_for_finish(self, timeout=None):
 		self._popen.wait(timeout)
