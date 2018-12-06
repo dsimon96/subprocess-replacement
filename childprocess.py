@@ -118,13 +118,17 @@ class ChildProcess():
 			return stderr
 
 	def start(self):
+		if not hasattr(signal, "SIGCONT"):
+			raise OSError("No platform support for stopping/starting processes")
 		if not self.is_stopped():
 			raise RuntimeError("Process is not stopped")
 		self._is_stopped = False
-		self.kill(self.pid, signal.SIGCONT)
+		self.kill(signal.SIGCONT)
 
 	def stop(self):
-		self.kill(self.pid, signal.SIGSTOP)
+		if not hasattr(signal, "SIGTSTP"):
+			raise OSError("No platform support for stopping/starting processes")
+		self.kill(signal.SIGTSTP)
 		self._is_stopped = True
 
 	def terminate(self, force=False):
