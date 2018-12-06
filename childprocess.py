@@ -224,7 +224,9 @@ class ChildProcessBuilder():
 
 	@stdin.setter
 	def stdin(self, value):
-		if isinstance(value, str) or isinstance(value, io.IOBase):
+		if isinstance(value, io.BufferedReader):
+			self._stdin = value.raw
+		elif isinstance(value, str) or isinstance(value, io.IOBase):
 			self._stdin = value
 		elif value in ChildProcessIO:
 			if value == ChildProcessIO.STDOUT:
@@ -273,13 +275,14 @@ class PipelineBuilder():
 
 		for command in self.commands[:-1]:
 			builder.args = command
-			builder.stdin = next_input
+			if next_input is not None:
+				builder.stdin = next_input
 
 			proc = builder.spawn()
 			res.append(proc)
 			next_input = proc.stdout
 
-		builder.args = commands[-1]
+		builder.args = self.commands[-1]
 		builder.stdin = next_input
 		if self.stdout:
 			builder.stdout = self.stdout
