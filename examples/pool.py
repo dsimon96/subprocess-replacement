@@ -1,17 +1,17 @@
 """
-'management' use case - the parent process is managing a pool of worker processes
+'management' use case - the parent process manages a pool of worker processes
 
-python multiprocessing can achieve a similar goal only if the worker processes are
-themselves python scripts. Here we can provide inputs to black-box executables that
-accept inputs from stdin
+Python multiprocessing can achieve a similar goal only if the worker processes
+are themselves Python scripts. Here we can provide inputs to black-box
+executables that accept inputs from stdin.
 
 worker accepts a list of tokens on separate lines, and outputs an aggregated result
 """
-import ChildProcess
+from ChildProcess import ChildProcessBuilder as CPB
 
 NUM_WORKERS = 10
 
-cpb = ChildProcess.Builder(["worker", "-n", NUM_WORKERS, "-id", 0])
+cpb = CPB(["worker", "-n", NUM_WORKERS, "-id", 0])
 
 processes = []
 
