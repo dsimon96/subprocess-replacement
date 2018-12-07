@@ -152,6 +152,13 @@ class ChildProcess():
 	def kill(self, signal):
 		self._popen.send_signal(signal)
 
+	def __enter__(self):
+		return self
+
+	def __exit__(self, type, value, traceback):
+		self.terminate()
+
+
 class ChildProcessBuilder():
 	def __init__(self, args, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
 		if env is None:
