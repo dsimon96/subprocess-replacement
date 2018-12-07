@@ -156,7 +156,8 @@ class ChildProcess():
 		return self
 
 	def __exit__(self, type, value, traceback):
-		self.terminate()
+		if not self.is_finished():
+			self._popen.kill()
 
 
 class ChildProcessBuilder():
