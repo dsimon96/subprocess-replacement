@@ -29,14 +29,13 @@ def run_manual_example():
     sort2 = CPB("sort -rn", stdin=uniq.stdout)
     sed = CPB("sed ${1}q", stdin=sort2.stdout)
 
-    procs = [tr1, tr2, sort1, uniq, sort2, sed]
-    for proc in procs:
-        proc.spawn()
+    builders = [tr1, tr2, sort1, uniq, sort2, sed]
+    procs = [b.spawn() for b in builders]
 
     print("Piped {} processes together".format(len(procs)))
     print("Counting words in '{}'".format(words_to_count))
     procs[0].stdin.write(words_to_count)
-    print("Counted {} words".format(procs[-1].readline()))
+    print("Counted {} words".format(procs[-1].stdout.readline()))
 
 def run_auto_example():
     """
@@ -54,7 +53,7 @@ def run_auto_example():
     print("Piped {} processes together".format(len(procs)))
     print("Counting words in '{}'".format(words_to_count))
     procs[0].stdin.write(words_to_count)
-    print("Counted {} words".format(procs[-1].readline()))
+    print("Counted {} words".format(procs[-1].stdout.readline()))
 
 if __name__ == "__main__":
     run_manual_example()
