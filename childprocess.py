@@ -163,16 +163,6 @@ class ChildProcess():
 
 class ChildProcessBuilder():
 	def __init__(self, args, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
-		if env is None:
-			env = dict(os.environ)
-		if cwd is None:
-			cwd = os.getcwd()
-		if stdin is None:
-			stdin = ChildProcessIO.PIPE
-		if stdout is None:
-			stdout = ChildProcessIO.PIPE
-		if stderr is None:
-			stderr = ChildProcessIO.PIPE
 		self.args = args
 		self.env = env
 		self.cwd = cwd
@@ -212,6 +202,8 @@ class ChildProcessBuilder():
 		"""
 		Define environment variables
 		"""
+		if env is None:
+			env = dict(os.environ)
 		if isinstance(value, dict):
 			try:
 				self._env = {str(k):str(v) for k,v in value.items()}
@@ -226,6 +218,8 @@ class ChildProcessBuilder():
 
 	@cwd.setter
 	def cwd(self, value):
+		if cwd is None:
+			cwd = os.getcwd()
 		try:
 			self._cwd = os.path.normpath(value)
 		except:
@@ -237,6 +231,8 @@ class ChildProcessBuilder():
 
 	@stdin.setter
 	def stdin(self, value):
+		if stdin is None:
+			stdin = ChildProcessIO.PIPE
 		if isinstance(value, io.BufferedReader):
 			self._stdin = value.raw
 		elif isinstance(value, str) or isinstance(value, io.IOBase):
@@ -255,6 +251,8 @@ class ChildProcessBuilder():
 
 	@stdout.setter
 	def stdout(self, value):
+		if stdout is None:
+			stdout = ChildProcessIO.PIPE
 		if isinstance(value, io.IOBase) or value in ChildProcessIO:
 			self._stdout = value
 		else:
@@ -266,6 +264,8 @@ class ChildProcessBuilder():
 
 	@stderr.setter
 	def stderr(self, value):
+		if stderr is None:
+			stderr = ChildProcessIO.PIPE
 		if isinstance(value, io.IOBase) or value in ChildProcessIO:
 			self._stderr = value
 		else:
@@ -297,18 +297,15 @@ class PipelineBuilder():
 
 		for command in self.commands[:-1]:
 			builder.args = command
-			if next_input:
-				builder.stdin = next_input
+			builder.stdin = next_input
 
 			proc = builder.spawn()
 			res.append(proc)
 			next_input = proc.stdout
 
 		builder.args = self.commands[-1]
-		if next_input:
-			builder.stdin = next_input
-		if self.stdout:
-			builder.stdout = self.stdout
+		builder.stdin = next_input
+		builder.stdout = self.stdout
 
 		proc = builder.spawn()
 		res.append(proc)
