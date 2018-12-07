@@ -35,7 +35,6 @@ def run_manual_example():
 
     print("Piped {} processes together".format(len(procs)))
     print("Counting words in '{}'".format(words_to_count))
-    print(dir(procs[0].stdin))
     procs[0].stdin.write(words_to_count)
     print("Counted {} words".format(procs[-1].readline()))
 
