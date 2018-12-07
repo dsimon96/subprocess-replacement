@@ -297,7 +297,7 @@ class PipelineBuilder():
 
 		for command in self.commands[:-1]:
 			builder.args = command
-			if next_input is not None:
+			if next_input:
 				builder.stdin = next_input
 
 			proc = builder.spawn()
@@ -305,7 +305,8 @@ class PipelineBuilder():
 			next_input = proc.stdout
 
 		builder.args = self.commands[-1]
-		builder.stdin = next_input
+		if next_input:
+			builder.stdin = next_input
 		if self.stdout:
 			builder.stdout = self.stdout
 
