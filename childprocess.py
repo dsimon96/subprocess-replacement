@@ -202,8 +202,8 @@ class ChildProcessBuilder():
 		"""
 		Define environment variables
 		"""
-		if env is None:
-			env = dict(os.environ)
+		if value is None:
+			value = dict(os.environ)
 		if isinstance(value, dict):
 			try:
 				self._env = {str(k):str(v) for k,v in value.items()}
@@ -218,8 +218,8 @@ class ChildProcessBuilder():
 
 	@cwd.setter
 	def cwd(self, value):
-		if cwd is None:
-			cwd = os.getcwd()
+		if value is None:
+			value = os.getcwd()
 		try:
 			self._cwd = os.path.normpath(value)
 		except:
@@ -231,8 +231,8 @@ class ChildProcessBuilder():
 
 	@stdin.setter
 	def stdin(self, value):
-		if stdin is None:
-			stdin = ChildProcessIO.PIPE
+		if value is None:
+			value = ChildProcessIO.PIPE
 		if isinstance(value, io.BufferedReader):
 			self._stdin = value.raw
 		elif isinstance(value, str) or isinstance(value, io.IOBase):
@@ -251,8 +251,8 @@ class ChildProcessBuilder():
 
 	@stdout.setter
 	def stdout(self, value):
-		if stdout is None:
-			stdout = ChildProcessIO.PIPE
+		if value is None:
+			value = ChildProcessIO.PIPE
 		if isinstance(value, io.IOBase) or value in ChildProcessIO:
 			self._stdout = value
 		else:
@@ -264,8 +264,8 @@ class ChildProcessBuilder():
 
 	@stderr.setter
 	def stderr(self, value):
-		if stderr is None:
-			stderr = ChildProcessIO.PIPE
+		if value is None:
+			value = ChildProcessIO.PIPE
 		if isinstance(value, io.IOBase) or value in ChildProcessIO:
 			self._stderr = value
 		else:
