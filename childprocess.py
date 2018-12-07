@@ -264,7 +264,7 @@ class ChildProcessBuilder():
 
 class PipelineBuilder():
 	def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
-                if env is None:
+		if env is None:
 			env = dict(os.environ)
 		if cwd is None:
 			cwd = os.getcwd()

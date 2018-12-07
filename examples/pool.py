@@ -7,7 +7,7 @@ executables that accept inputs from stdin.
 
 worker accepts a list of tokens on separate lines, and outputs an aggregated result
 """
-from ChildProcess import ChildProcessBuilder as CPB
+from childprocess import ChildProcessBuilder as CPB
 
 NUM_WORKERS = 10
 

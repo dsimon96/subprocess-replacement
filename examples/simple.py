@@ -1,2 +1,8 @@
-with subprocess("lua -i -e \"_PROMPT=''\"") as sp:
-	sp.start()
+"""
+simple io use case - run another process, send it input, receive output
+"""
+from childprocess import ChildProcessBuilder as CPB
+
+with CPB("lua -i -e \"_PROMPT=''\"").spawn() as cp:
+    cp.stdin.write('io.write("Hello world, from ",_VERSION,"!\n")\n')
+    print(cp.stdout.read_line())
