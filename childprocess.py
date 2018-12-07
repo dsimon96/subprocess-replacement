@@ -1,5 +1,6 @@
 import io
 import os
+import shlex
 import signal
 import subprocess
 import sys
@@ -184,7 +185,7 @@ class ChildProcessBuilder():
 	@args.setter
 	def args(self, value: Union[str, List, Tuple]):
 		if isinstance(value, str):
-			self._args = value.split()
+			self._args = shlex.split(value)
 		elif isinstance(value, list) or isinstance(value, tuple):
 			try:
 				self._args = [str(obj) for obj in value]
