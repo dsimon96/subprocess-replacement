@@ -50,7 +50,7 @@ class ChildProcess():
 	def exit_code(self):
 		self._popen.poll()
 		return self._popen.returncode
-	
+
 	@property
 	def stdin(self):
 		if not self._stdin_writeable:
@@ -59,7 +59,7 @@ class ChildProcess():
 
 	@property
 	def stdout(self):
-		if not self._stdin_writeable:
+		if not self._stdout_readable:
 			raise RuntimeError("The process's stdout pipe is inaccessible")
 		return self._popen.stdout
 
@@ -173,7 +173,7 @@ class ChildProcessBuilder():
 
 	def spawn(self):
 		"""
-		Create a child process from the current 
+		Create a child process from the current ChildProcessBuilder configuration
 		"""
 		return ChildProcess(self.args, self.env, self.cwd, self.stdin, self.stdout, self.stderr)
 
@@ -194,7 +194,7 @@ class ChildProcessBuilder():
 	@property
 	def env(self) -> Dict[str, str]:
 		"""
-		The environment variables which the child process will be created with
+		The environment variables with which the child process will be created
 		"""
 		return self._env
 
@@ -234,7 +234,7 @@ class ChildProcessBuilder():
 			self._stdin = value
 		elif value in ChildProcessIO:
 			if value == ChildProcessIO.STDOUT:
-				raise ValueError("cannot pipe a process's output to its own input")
+				raise ValueError("Cannot pipe a process's output to its own input")
 			else:
 				self._stdin = value
 		else:
@@ -260,7 +260,7 @@ class ChildProcessBuilder():
 		if isinstance(value, io.IOBase) or value in ChildProcessIO:
 			self._stderr = value
 		else:
-			raise TypeError("Error output can be redicted to a file-like object, or a ChildProcessIO special value")
+			raise TypeError("Error output can be redirected to a file-like object, or a ChildProcessIO special value")
 
 class PipelineBuilder():
 	def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
@@ -272,7 +272,7 @@ class PipelineBuilder():
 		self.stderr = stderr
 		# TODO: make these properly-checked attributes
 
-	def spawnAll(self):
+	def spawn_all(self):
 		res = []
 		next_input = self.stdin
 		builder = ChildProcessBuilder([], env=self.env, cwd=self.cwd, stderr=self.stderr)
@@ -299,7 +299,7 @@ class PipelineBuilder():
 	@property
 	def commands(self):
 		return self._commands
-	
+
 	@commands.setter
 	def commands(self, value):
 		if isinstance(value, str):
