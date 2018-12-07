@@ -264,13 +264,22 @@ class ChildProcessBuilder():
 
 class PipelineBuilder():
 	def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+                if env is None:
+			env = dict(os.environ)
+		if cwd is None:
+			cwd = os.getcwd()
+		if stdin is None:
+			stdin = ChildProcessIO.PIPE
+		if stdout is None:
+			stdout = ChildProcessIO.PIPE
+		if stderr is None:
+			stderr = ChildProcessIO.PIPE
 		self.commands = commands
 		self.env = env
 		self.cwd = cwd
 		self.stdin = stdin
 		self.stdout = stdout
 		self.stderr = stderr
-		# TODO: make these properly-checked attributes
 
 	def spawn_all(self):
 		res = []
