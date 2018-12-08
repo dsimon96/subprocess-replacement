@@ -177,7 +177,10 @@ class ChildProcess():
 		(even when stopped) by the `force` argument, though this may result in the process 
 		failing to close open files or database connections.
 
-		:param force: Terminate the process immediately in a way that cannot be ignored.		
+		Parameters
+		----------
+		force: bool, optional
+			Terminate the process immediately in a way that cannot be ignored.		
 		"""
 		if force:
 			self._popen.kill()
@@ -204,7 +207,17 @@ class ChildProcess():
 
 		Returns the process.
 		
-		:param timeout: Amount of time in seconds to wait for the process to finish."""
+		Parameters
+		----------
+		timeout: int, optional
+			Amount of time in seconds to wait for the process to finish.
+		
+		Returns
+		-------
+		ChildProcess
+			The process on which it was called, in order to enable 'fluent programming'
+		"""
+
 		self._popen.wait(timeout)
 
 	def kill(self, signal):
@@ -230,12 +243,20 @@ class ChildProcessBuilder():
 
 		Refer to documentation for each attribute for their default behavior and the particulars of their usage.
 
-		:param args: The desired value of the arguments (see ChildProcessBuilder.args). Required.
-		:param env: The desired environment variable definitions (see ChildProcessBuilder.env). Optional.
-		:param cwd: The desired current working directory (see ChildProcessBuilder.cwd). Optional.
-		:param stdin: The desired standard input (see ChildProcessBuilder.stdin). Optional.
-		:param stdout: The desired standard output (see ChildProcessBuilder.stdout). Optional.
-		:param stderr: The desired standard error output (see ChildProcessBuilder.stderr). Optional."""
+		Parameters
+		----------
+		args
+			The desired value of the arguments (see ChildProcessBuilder.args). Required.
+		env
+			The desired environment variable definitions (see ChildProcessBuilder.env). Optional.
+		cwd
+			The desired current working directory (see ChildProcessBuilder.cwd). Optional.
+		stdin
+			The desired standard input (see ChildProcessBuilder.stdin). Optional.
+		stdout
+			The desired standard output (see ChildProcessBuilder.stdout). Optional.
+		stderr
+			The desired standard error output (see ChildProcessBuilder.stderr). Optional."""
 		self.args = args
 		self.env = env
 		self.cwd = cwd
@@ -244,7 +265,13 @@ class ChildProcessBuilder():
 		self.stderr = stderr
 
 	def spawn(self):
-		"""Create a child process from the current ChildProcessBuilder attributes. Returns the spawned ChildProcess."""
+		"""Create a child process from the current ChildProcessBuilder attributes.
+		
+		Returns
+		-------
+		ChildProcess
+			The spawned ChildProcess
+		"""
 		return ChildProcess(self.args, self.env, self.cwd, self.stdin, self.stdout, self.stderr)
 
 	@property
@@ -414,7 +441,11 @@ class PipelineBuilder():
 	def spawn_all(self):
 		"""Create the processes for the pipeline.
 
-		Returns a list of the created processes in order."""
+		Returns
+		-------
+		list
+			A list of the created processes in order
+		"""
 		res = []
 		next_input = self.stdin
 		builder = ChildProcessBuilder([], env=self.env, cwd=self.cwd, stderr=self.stderr)
