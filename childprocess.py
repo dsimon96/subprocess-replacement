@@ -13,9 +13,13 @@ class ChildProcessIO(Enum):
 	Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr.
 	
 	Values:
+
 	PIPE - Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr
+
 	INHERIT - Upon creation, inherit the corresponding I/O stream from the parent process
+
 	NULL - Provide empty input, or ignore output
+
 	STDOUT - Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr"""
 	PIPE = 1
 	INHERIT = 2
@@ -28,7 +32,26 @@ class ChildProcess():
 	Should not be instantiated directly - instead, use ChildProcessBuilder.spawn() to get an instance.
 	
 	May be used with Python's `with` statement - upon the exit of the block, the process will be terminated non-forcefully.
-	See `ChildProcess.terminate`"""
+	See `ChildProcess.terminate`.
+	
+	Properties
+	----------
+
+	args - The argument array provided upon the ChildProcess's creation. Read-only.
+
+	env - The environment variable definitions provided upon the ChildProcess's creation. Read-only.
+
+	cwd - The working directory of the ChildProcess, provided upon the ChildProcess's creation. Read-only.
+
+	stdin - The input stream for the child process, if it was created by `ChildProcessIO.PIPE`. Also accessible if input was provided in string format.
+
+	stdout - The output stream for the child process, if it was created by `ChildProcessIO.PIPE`. 
+
+	stderr - The error output stream for the child process, if it was created by `ChildProcessIO.PIPE`
+		
+
+
+	"""
 	def __init__(self, args, env, cwd, stdin, stdout, stderr):
 		self._args = args
 		self._env = env
@@ -179,8 +202,7 @@ class ChildProcess():
 
 		Parameters
 		----------
-		force: bool, optional
-			Terminate the process immediately in a way that cannot be ignored.		
+		force: bool, optional. Terminate the process immediately in a way that cannot be ignored.		
 		"""
 		if force:
 			self._popen.kill()
@@ -209,8 +231,7 @@ class ChildProcess():
 		
 		Parameters
 		----------
-		timeout: int, optional
-			Amount of time in seconds to wait for the process to finish.
+		timeout: int, optional. Amount of time in seconds to wait for the process to finish.
 		
 		Returns
 		-------
@@ -245,18 +266,66 @@ class ChildProcessBuilder():
 
 		Parameters
 		----------
-		args
-			The desired value of the arguments (see ChildProcessBuilder.args). Required.
-		env
-			The desired environment variable definitions (see ChildProcessBuilder.env). Optional.
-		cwd
-			The desired current working directory (see ChildProcessBuilder.cwd). Optional.
-		stdin
-			The desired standard input (see ChildProcessBuilder.stdin). Optional.
-		stdout
-			The desired standard output (see ChildProcessBuilder.stdout). Optional.
-		stderr
-			The desired standard error output (see ChildProcessBuilder.stderr). Optional."""
+		args: required. The arguments with which the child process will be created, as a list of string tokens. 
+
+		As is convention, args[0] is the name of the executable that should be invoked. 
+		May be provided as a List of tokens, each of which will be converted to a string.
+		May be provided as a string, which will be tokenized in a Posix-compatible manner.
+
+		env: optional. Definitions of environment variables with which the child process will be created.
+
+		The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+		The default behavior is to inherit the environment variable definitions from its parent process.
+		May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+		be provided.
+
+		cwd: optional. The current working directory for the child process.
+
+		The basis of any relative paths used by the child process.
+		The default behavior is to inherit the current working directory from its parent process.
+		May be provided in a format convertible to a normalized `os.path`
+
+		stdin: optional. The desired standard input creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard input fd
+
+		ChildProcessIO.NULL - provide null input (EOF)
+
+		A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+
+		A file-like object - the contents read from the object will be provided to the process as input
+
+		stdout: optional. The desired standard output creation behavior for the child process.
+
+		Values include:
+
+		`ChildProcessIO.PIPE` (default) - open a parent-accessible readable pipe to the stdout fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard output fd
+
+		ChildProcessIO.NULL - ignore output
+
+		A file-like object - the contents output by the process will be written to the object
+
+		stderr: optional. The desired standard error output creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard error output fd
+
+		ChildProcessIO.NULL - ignore error output
+
+		A file-like object - the contents output by the process to stderr will be written to the object
+
+		It is the client's responsibility to make sure that process I/O is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files.
+		"""
 		self.args = args
 		self.env = env
 		self.cwd = cwd
