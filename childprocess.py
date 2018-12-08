@@ -13,9 +13,13 @@ class ChildProcessIO(Enum):
 	Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr.
 	
 	Values:
+
 	PIPE - Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr
+
 	INHERIT - Upon creation, inherit the corresponding I/O stream from the parent process
+
 	NULL - Provide empty input, or ignore output
+
 	STDOUT - Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr"""
 	PIPE = 1
 	INHERIT = 2
@@ -245,24 +249,79 @@ class ChildProcessBuilder():
 
 		Parameters
 		----------
-		args
-			The desired value of the arguments (see ChildProcessBuilder.args). Required.
-		env
-			The desired environment variable definitions (see ChildProcessBuilder.env). Optional.
-		cwd
-			The desired current working directory (see ChildProcessBuilder.cwd). Optional.
-		stdin
-			The desired standard input (see ChildProcessBuilder.stdin). Optional.
-		stdout
-			The desired standard output (see ChildProcessBuilder.stdout). Optional.
-		stderr
-			The desired standard error output (see ChildProcessBuilder.stderr). Optional."""
+		`args`: required. The desired value of the arguments (see ChildProcessBuilder.args).
+		`env`: optional. The desired environment variable definitions (see ChildProcessBuilder.env).
+		`cwd`: optional. The desired current working directory (see ChildProcessBuilder.cwd).
+		`stdin`: optional. The desired standard input (see ChildProcessBuilder.stdin).
+		`stdout`: optional. The desired standard output (see ChildProcessBuilder.stdout).
+		`stderr`: optional. The desired standard error output (see ChildProcessBuilder.stderr).
+		"""
 		self.args = args
+		"""The arguments with which the child process will be created, as a list of string tokens.
+
+		As is convention, args[0] is the name of the executable that should be invoked.
+
+		May be provided as a List of tokens, each of which will be converted to a string.
+		May be provided as a string, which will be tokenized in a Posix-compatible manner."""
 		self.env = env
+		"""Definitions of environment variables with which the child process will be created.
+
+		The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+		The default behavior is to inherit the environment variable definitions from its parent process.
+
+		May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+		be provided.
+		"""
 		self.cwd = cwd
+		"""The current working directory for the child process.
+
+		The basis of any relative paths used by the child process.
+		The default behavior is to inherit the current working directory from its parent process.
+
+		May be provided in a format convertible to a normalized `os.path`"""
 		self.stdin = stdin
+		"""The desired standard input creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard input fd
+
+		ChildProcessIO.NULL - provide null input (EOF)
+
+		A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+
+		A file-like object - the contents read from the object will be provided to the process as input
+
+		It is the client's responsibility to make sure that standard input is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
 		self.stdout = stdout
+		"""The desired standard output creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard output fd
+
+		ChildProcessIO.NULL - ignore output
+
+		A file-like object - the contents output by the process will be written to the object
+
+		It is the client's responsibility to make sure that standard output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
 		self.stderr = stderr
+		"""The desired standard error output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+		ChildProcessIO.INHERIT - use the parent process's standard error output fd
+		ChildProcessIO.NULL - ignore error output
+		A file-like object - the contents output by the process to stderr will be written to the object
+
+		It is the client's responsibility to make sure that standard error output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
 
 	def spawn(self):
 		"""Create a child process from the current ChildProcessBuilder attributes.
@@ -415,11 +474,7 @@ class ChildProcessBuilder():
 			raise TypeError("Error output can be redirected to a file-like object, or a ChildProcessIO special value")
 
 class PipelineBuilder():
-	"""A convenience wrapper for ChildProcessBuilder to construct a pipeline of processes with each's output piped to the next's input.
-	
-	The parameters env, cwd, and stderr are shared by all processes in the pipeline.
-	
-	stdin describes the input proved to the first process, and stdout describes the output behavior of the last process."""
+	"""A convenience wrapper for ChildProcessBuilder to construct a pipeline of processes with each's output piped to the next's input."""
 	def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
 		if env is None:
 			env = dict(os.environ)
@@ -432,11 +487,17 @@ class PipelineBuilder():
 		if stderr is None:
 			stderr = ChildProcessIO.PIPE
 		self.commands = commands
+		""" List of commands to execute. May be a list, or a string where commands are separated by pipe characters."""
 		self.env = env
+		""" Environment variable definitions. Shared by all processes in the pipeline"""
 		self.cwd = cwd
+		""" Current working directory. Shared by all processes in the pipeline """
 		self.stdin = stdin
+		""" Input to the first process in the pipeline """
 		self.stdout = stdout
+		""" Output destination for the last process in the pipeline """
 		self.stderr = stderr
+		""" Stderr output destination. Shared by all processes in the pipeline """
 
 	def spawn_all(self):
 		"""Create the processes for the pipeline.
