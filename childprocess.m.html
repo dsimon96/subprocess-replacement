@@ -1,0 +1,3041 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>childprocess API documentation</title>
+    <meta name="description" content="" />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <style type="text/css">
+  
+* {
+  box-sizing: border-box;
+}
+/*! normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/**
+ * 1. Prevent system color scheme's background color being used in Firefox, IE,
+ *    and Opera.
+ * 2. Prevent system color scheme's text color being used in Firefox, IE, and
+ *    Opera.
+ * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 4. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    background: #fff; /* 1 */
+    color: #000; /* 2 */
+    font-size: 100%; /* 3 */
+    -webkit-text-size-adjust: 100%; /* 4 */
+    -ms-text-size-adjust: 100%; /* 4 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+
+body {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+
+b,
+strong {
+    font-weight: bold;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+p,
+pre {
+    margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+
+q {
+    quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+dl,
+menu,
+ol,
+ul {
+    margin: 1em 0;
+}
+
+dd {
+    margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+
+img {
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+
+figure {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+
+form {
+    margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+
+legend {
+    border: 0; /* 1 */
+    padding: 0;
+    white-space: normal; /* 2 */
+    *margin-left: -7px; /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* 1 */
+    margin: 0; /* 2 */
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+button,
+input {
+    line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+    *overflow: visible;  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+  </style>
+
+  <style type="text/css">
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background: #fff;
+    font-family: "Source Sans Pro", "Helvetica Neueue", Helvetica, sans;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6em;
+  }
+  #content {
+    width: 70%;
+    max-width: 850px;
+    float: left;
+    padding: 30px 60px;
+    border-left: 1px solid #ddd;
+  }
+  #sidebar {
+    width: 25%;
+    float: left;
+    padding: 30px;
+    overflow: hidden;
+  }
+  #nav {
+    font-size: 130%;
+    margin: 0 0 15px 0;
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: .85em;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    font-size: .75em;
+    padding: 5px 30px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+    #footer p {
+      margin: 0 0 0 30px;
+      display: inline-block;
+    }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin: 0 0 .50em 0;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    margin: 1em 0 .50em 0;
+  }
+
+  h3 {
+    margin: 25px 0 10px 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 105%;
+  }
+
+  a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+  }
+
+  a:hover {
+    color: #e08524;
+    transition: color .3s ease-in-out;
+  }
+
+  pre, code, .mono, .name {
+    font-family: "Ubuntu Mono", "Cousine", "DejaVu Sans Mono", monospace;
+  }
+
+  .title .name {
+    font-weight: bold;
+  }
+  .section-title {
+    margin-top: 2em;
+  }
+  .ident {
+    color: #900;
+  }
+
+  code {
+    background: #f9f9f9;
+  } 
+
+  pre {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 0 #f3f3f3;
+    margin: 0 30px;
+    padding: 15px 30px;
+  }
+
+  .codehilite {
+    margin: 0 30px 10px 30px;
+  }
+
+    .codehilite pre {
+      margin: 0;
+    }
+    .codehilite .err { background: #ff3300; color: #fff !important; } 
+
+  table#module-list {
+    font-size: 110%;
+  }
+
+    table#module-list tr td:first-child {
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    table#module-list td {
+      vertical-align: top;
+      padding-bottom: 8px;
+    }
+
+      table#module-list td p {
+        margin: 0 0 7px 0;
+      }
+
+  .def {
+    display: table;
+  }
+
+    .def p {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .def p:first-child {
+      white-space: nowrap;
+    }
+
+    .def p:last-child {
+      width: 100%;
+    }
+
+
+  #index {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    ul#index .class_name {
+      /* font-size: 110%; */
+      font-weight: bold;
+    }
+    #index ul {
+      margin: 0;
+    }
+
+  .item {
+    margin: 0 0 15px 0;
+  }
+
+    .item .class {
+      margin: 0 0 25px 30px;
+    }
+
+      .item .class ul.class_list {
+        margin: 0 0 20px 0;
+      }
+
+    .item .name {
+      background: #fafafa;
+      margin: 0;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 40%;
+    }
+      .item .name:hover {
+        background: #f6f6f6;
+      }
+
+    .item .empty_desc {
+      margin: 0 0 5px 0;
+      padding: 0;
+    }
+
+    .item .inheritance {
+      margin: 3px 0 0 30px;
+    }
+
+    .item .inherited {
+      color: #666;
+    }
+
+    .item .desc {
+      padding: 0 8px;
+      margin: 0;
+    }
+
+      .item .desc p {
+        margin: 0 0 10px 0;
+      }
+
+    .source_cont {
+      margin: 0;
+      padding: 0;
+    }
+
+    .source_link a {
+      background: #ffc300;
+      font-weight: 400;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 1px 1px 0 #f4b700;
+      
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: background .3s ease-in-out;
+    }
+      .source_link a:hover {
+        background: #FF7200;
+        text-shadow: none;
+        transition: background .3s ease-in-out;
+      }
+
+    .source {
+      display: none;
+      max-height: 600px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+
+      .source .codehilite {
+        margin: 0;
+      }
+
+  .desc h1, .desc h2, .desc h3 {
+    font-size: 100% !important;
+  }
+  .clear {
+    clear: both;
+  }
+
+  @media all and (max-width: 950px) {
+    #sidebar {
+      width: 35%;
+    }
+    #content {
+      width: 65%;
+    }
+  }
+  @media all and (max-width: 650px) {
+    #top {
+      display: none;
+    }
+    #sidebar {
+      float: none;
+      width: auto;
+    }
+    #content {
+      float: none;
+      width: auto;
+      padding: 30px;
+    }
+
+    #index ul {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+    #index ul li {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    #footer {
+      text-align: left;
+    }
+    #footer p {
+      display: block;
+      margin: inherit;
+    }
+  }
+
+  /*****************************/
+
+  </style>
+
+
+  <style type="text/css">
+  
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+  function toggle(id, $link) {
+    $node = document.getElementById(id);
+    if (!$node)
+    return;
+    if (!$node.style.display || $node.style.display == 'none') {
+    $node.style.display = 'block';
+    $link.innerHTML = 'Hide source &nequiv;';
+    } else {
+    $node.style.display = 'none';
+    $link.innerHTML = 'Show source &equiv;';
+    }
+  }
+  </script>
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+  <div id="sidebar">
+    <h1>Index</h1>
+    <ul id="index">
+
+
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#childprocess.ChildProcess">ChildProcess</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#childprocess.ChildProcess.__init__">__init__</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.is_finished">is_finished</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.is_running">is_running</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.is_stopped">is_stopped</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.kill">kill</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.start">start</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.stop">stop</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.terminate">terminate</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcess.wait_for_finish">wait_for_finish</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#childprocess.ChildProcessBuilder">ChildProcessBuilder</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#childprocess.ChildProcessBuilder.__init__">__init__</a></li>
+    <li class="mono"><a href="#childprocess.ChildProcessBuilder.spawn">spawn</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#childprocess.ChildProcessIO">ChildProcessIO</a></span>
+        
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#childprocess.PipelineBuilder">PipelineBuilder</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#childprocess.PipelineBuilder.__init__">__init__</a></li>
+    <li class="mono"><a href="#childprocess.PipelineBuilder.spawn_all">spawn_all</a></li>
+  </ul>
+
+        </li>
+      </ul>
+    </li>
+
+    </ul>
+  </div>
+
+    <article id="content">
+      
+  
+
+  
+
+
+  <header id="section-intro">
+  <h1 class="title"><span class="name">childprocess</span> module</h1>
+  
+  
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess" class="source">
+    <pre><code>import io
+import os
+import shlex
+import signal
+import subprocess
+import sys
+from enum import Enum
+from typing import Dict, List, Tuple, Union
+
+class ChildProcessIO(Enum):
+	"""The desired creation behavior for a ChildProcess's standard input/output/error file descriptors.
+
+	Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr.
+
+	Values:
+
+	PIPE - Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr
+
+	INHERIT - Upon creation, inherit the corresponding I/O stream from the parent process
+
+	NULL - Provide empty input, or ignore output
+
+	STDOUT - Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr"""
+	PIPE = 1
+	INHERIT = 2
+	NULL = 3
+	STDOUT = 4
+
+class ChildProcess():
+	"""A child process.
+
+	Should not be instantiated directly - instead, use ChildProcessBuilder.spawn() to get an instance.
+
+	May be used with Python's `with` statement - upon the exit of the block, the process will be terminated non-forcefully.
+	See `ChildProcess.terminate`"""
+	def __init__(self, args, env, cwd, stdin, stdout, stderr):
+		self._args = args
+		self._env = env
+		self._cwd = cwd
+
+		popen_stdin, deferred_input = self._make_stdin(stdin)
+		popen_stdout = self._make_stdout(stdout)
+		popen_stderr = self._make_stderr(stderr)
+
+		self._is_stopped = False
+		self._popen = subprocess.Popen(
+			args, cwd=cwd, env=env,
+			stdin=popen_stdin, stdout=popen_stdout, stderr=popen_stderr)
+
+		if deferred_input:
+			self._popen.stdin.write(deferred_input)
+
+	@property
+	def args(self):
+		"""The argument array provided upon the ChildProcess's creation. Read-only."""
+		return self._args
+
+	@property
+	def env(self):
+		"""The environment variable definitions provided upon the ChildProcess's creation. Read-only."""
+		return self._env
+
+	@property
+	def cwd(self):
+		"""The working directory of the ChildProcess, provided upon the ChildProcess's creation. Read-only."""
+		return self._cwd
+
+	@property
+	def pid(self):
+		"""The system's pid for the child process. Read-only."""
+		return self._popen.pid
+
+	@property
+	def exit_code(self):
+		"""Either the integer exit code of the child process, or None if it is still running. Read-only.
+
+		One can spin-wait for a child process to exit with `while process.exit_code is None`."""
+		self._popen.poll()
+		return self._popen.returncode
+
+	@property
+	def stdin(self):
+		"""The input stream for the child process, if it was created by ChildProcessIO.PIPE.
+
+		Also accessible if input was provided in string format.
+
+		Attempts to access an inaccessible child process file descriptor result in a RuntimeError."""
+		if not self._stdin_writeable:
+			raise RuntimeError("The process's stdin pipe is inaccessible")
+		return self._popen.stdin
+
+	@property
+	def stdout(self):
+		"""The output stream for the child process, if it was created by ChildProcessIO.PIPE.
+
+		Attempts to access an inaccessible child process file descriptor result in a RuntimeError."""
+		if not self._stdout_readable:
+			raise RuntimeError("The process's stdout pipe is inaccessible")
+		return self._popen.stdout
+
+	@property
+	def stderr(self):
+		"""The error output stream for the child process, if it was created by ChildProcessIO.PIPE.
+
+		Attempts to access an inaccessible child process file descriptor result in a RuntimeError."""
+		if not self._stderr_readable:
+			raise RuntimeError("The process's stderr pipe is inaccessible")
+		return self._popen.stderr
+
+	def _make_stdin(self, stdin):
+		if stdin == ChildProcessIO.PIPE:
+			self._stdin_writeable = True
+			return subprocess.PIPE, None
+		elif stdin == ChildProcessIO.INHERIT:
+			self._stdin_writeable = False
+			return sys.stdin, None
+		elif stdin == ChildProcessIO.NULL:
+			self._stdin_writeable = False
+			return open(os.devnull, 'r'), None
+		elif isinstance(stdin, io.IOBase):
+			self._stdin_writeable = False
+			return stdin, None
+		else:
+			self._stdin_writeable = True
+			return subprocess.PIPE, stdin
+
+	def _make_stdout(self, stdout):
+		if stdout == ChildProcessIO.PIPE or stdout == ChildProcessIO.STDOUT:
+			self._stdout_readable = True
+			return subprocess.PIPE
+		elif stdout == ChildProcessIO.INHERIT:
+			self._stdout_readable = False
+			return sys.stdout
+		elif stdout == ChildProcessIO.NULL:
+			self._stdout_readable = False
+			return open(os.devnull, 'w')
+		else:
+			self._stdout_readable = False
+			return stdout
+
+	def _make_stderr(self, stderr):
+		if stderr == ChildProcessIO.PIPE:
+			self._stderr_readable = True
+			return subprocess.PIPE
+		elif stderr == ChildProcessIO.STDOUT:
+			self._stderr_readable = False
+			return subprocess.STDOUT
+		elif stderr == ChildProcessIO.INHERIT:
+			self._stderr_readable = False
+			return sys.stderr
+		elif stderr == ChildProcessIO.NULL:
+			self._stderr_readable = False
+			return open(os.devnull, 'w')
+		else:
+			self._stderr_readable = False
+			return stderr
+
+	def start(self):
+		"""Resume execution of a process which has previously been stopped.
+
+		Requires platform support - if unsupported on this platform, raises an OSError."""
+		if not hasattr(signal, "SIGCONT"):
+			raise OSError("No platform support for stopping/starting processes")
+		self._is_stopped = False
+		self.kill(signal.SIGCONT)
+
+	def stop(self):
+		"""Suspend execution of a running process.
+
+		Requires platform support - if unsupported on this platform, raises an OSError."""
+		if not hasattr(signal, "SIGTSTP"):
+			raise OSError("No platform support for stopping/starting processes")
+		self.kill(signal.SIGTSTP)
+		self._is_stopped = True
+
+	def terminate(self, force=False):
+		"""Request that a process terminate execution.
+
+		Requests to terminate may be ignored by the child process, and may not be serviced
+		if the process is stopped. If this is undesirable, a process may be forced to exit
+		(even when stopped) by the `force` argument, though this may result in the process
+		failing to close open files or database connections.
+
+		Parameters
+		----------
+		force: bool, optional
+			Terminate the process immediately in a way that cannot be ignored.
+		"""
+		if force:
+			self._popen.kill()
+		else:
+			self._popen.terminate()
+
+	def is_running(self):
+		"""Return true if the process is executing, and false otherwise"""
+		return not (self.is_finished() or self.is_stopped())
+
+	def is_stopped(self):
+		"""Return true if the process is suspended but not yet finished, and false otherwise"""
+		return not self.is_finished() and self._is_stopped
+
+	def is_finished(self):
+		"""Return true if the process has exited, and false otherwise"""
+		return self.exit_code is not None
+
+	def wait_for_finish(self, timeout=None):
+		"""Block until the process finishes. May optionally wait up to a maximum length of time
+
+		If the process does not terminate after `timeout` seconds, raise a
+		`subprocess.TimeoutExpired` exception. It is safe to catch this exception and retry.
+
+		Returns the process.
+
+		Parameters
+		----------
+		timeout: int, optional
+			Amount of time in seconds to wait for the process to finish.
+
+		Returns
+		-------
+		ChildProcess
+			The process on which it was called, in order to enable 'fluent programming'
+		"""
+
+		self._popen.wait(timeout)
+
+	def kill(self, signal):
+		"""Send a signal to the process.
+
+		The available signals are defined in the `signal` module"""
+		self._popen.send_signal(signal)
+
+	def __enter__(self):
+		return self
+
+	def __exit__(self, type, value, traceback):
+		if not self.is_finished():
+			self._popen.kill()
+
+
+class ChildProcessBuilder():
+	"""Builder to obtain instances of ChildProcess.
+
+	One ChildProcessBuilder may be used to obtain any number of ChildProcess instances."""
+	def __init__(self, args, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+		"""Initialize the attributes of the builder.
+
+		Refer to documentation for each attribute for their default behavior and the particulars of their usage.
+
+		Parameters
+		----------
+		`args`: required. The desired value of the arguments (see ChildProcessBuilder.args).
+
+		`env`: optional. The desired environment variable definitions (see ChildProcessBuilder.env).
+
+		`cwd`: optional. The desired current working directory (see ChildProcessBuilder.cwd).
+
+		`stdin`: optional. The desired standard input (see ChildProcessBuilder.stdin).
+
+		`stdout`: optional. The desired standard output (see ChildProcessBuilder.stdout).
+
+		`stderr`: optional. The desired standard error output (see ChildProcessBuilder.stderr).
+		"""
+		self.args = args
+		"""The arguments with which the child process will be created, as a list of string tokens.
+
+		As is convention, args[0] is the name of the executable that should be invoked.
+
+		May be provided as a List of tokens, each of which will be converted to a string.
+		May be provided as a string, which will be tokenized in a Posix-compatible manner."""
+		self.env = env
+		"""Definitions of environment variables with which the child process will be created.
+
+		The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+		The default behavior is to inherit the environment variable definitions from its parent process.
+
+		May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+		be provided.
+		"""
+		self.cwd = cwd
+		"""The current working directory for the child process.
+
+		The basis of any relative paths used by the child process.
+		The default behavior is to inherit the current working directory from its parent process.
+
+		May be provided in a format convertible to a normalized `os.path`"""
+		self.stdin = stdin
+		"""The desired standard input creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard input fd
+
+		ChildProcessIO.NULL - provide null input (EOF)
+
+		A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+
+		A file-like object - the contents read from the object will be provided to the process as input
+
+		It is the client's responsibility to make sure that standard input is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		self.stdout = stdout
+		"""The desired standard output creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard output fd
+
+		ChildProcessIO.NULL - ignore output
+
+		A file-like object - the contents output by the process will be written to the object
+
+		It is the client's responsibility to make sure that standard output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		self.stderr = stderr
+		"""The desired standard error output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+		ChildProcessIO.INHERIT - use the parent process's standard error output fd
+		ChildProcessIO.NULL - ignore error output
+		A file-like object - the contents output by the process to stderr will be written to the object
+
+		It is the client's responsibility to make sure that standard error output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+
+	def spawn(self):
+		"""Create a child process from the current ChildProcessBuilder attributes.
+
+		Returns
+		-------
+		ChildProcess
+			The spawned ChildProcess
+		"""
+		return ChildProcess(self.args, self.env, self.cwd, self.stdin, self.stdout, self.stderr)
+
+	@property
+	def args(self) -> List[str]:
+		"""The arguments with which the child process will be created, as a list of string tokens.
+
+		As is convention, args[0] is the name of the executable that should be invoked.
+
+		May be provided as a List of tokens, each of which will be converted to a string.
+		May be provided as a string, which will be tokenized in a Posix-compatible manner."""
+		return self._args
+
+	@args.setter
+	def args(self, value: Union[str, List, Tuple]):
+		if isinstance(value, str):
+			self._args = shlex.split(value)
+		elif isinstance(value, list) or isinstance(value, tuple):
+			try:
+				self._args = [str(obj) for obj in value]
+			except:
+				raise TypeError("Arguments must be convertible to strings")
+
+	@property
+	def env(self) -> Dict[str, str]:
+		"""Definitions of environment variables with which the child process will be created.
+
+		The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+		The default behavior is to inherit the environment variable definitions from its parent process.
+
+		May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+		be provided.
+		"""
+		return self._env
+
+	@env.setter
+	def env(self, value: Dict[str, str]):
+		if value is None:
+			value = dict(os.environ)
+		if isinstance(value, dict):
+			try:
+				self._env = {str(k):str(v) for k,v in value.items()}
+			except:
+				raise TypeError("Environment variable names and values must be convertible to strings")
+		else:
+			raise TypeError("Environment variable definitions must be a dictionary")
+
+	@property
+	def cwd(self):
+		"""The current working directory for the child process.
+
+		The basis of any relative paths used by the child process.
+		The default behavior is to inherit the current working directory from its parent process.
+
+		May be provided in a format convertible to a normalized `os.path`"""
+		return self._cwd
+
+	@cwd.setter
+	def cwd(self, value):
+		if value is None:
+			value = os.getcwd()
+		try:
+			self._cwd = os.path.normpath(value)
+		except:
+			raise TypeError("Child process's current working directory must be a path-like object")
+
+	@property
+	def stdin(self):
+		"""The desired standard input creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+		ChildProcessIO.INHERIT - use the parent process's standard input fd
+		ChildProcessIO.NULL - provide null input (EOF)
+		A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+		A file-like object - the contents read from the object will be provided to the process as input
+
+		It is the client's responsibility to make sure that standard input is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		return self._stdin
+
+	@stdin.setter
+	def stdin(self, value):
+		if value is None:
+			value = ChildProcessIO.PIPE
+		if isinstance(value, io.BufferedReader):
+			self._stdin = value.raw
+		elif isinstance(value, str) or isinstance(value, io.IOBase):
+			self._stdin = value
+		elif value in ChildProcessIO:
+			if value == ChildProcessIO.STDOUT:
+				raise ValueError("Cannot pipe a process's output to its own input")
+			else:
+				self._stdin = value
+		else:
+			raise TypeError("Input can be redirected from a string, a file-like object, or a ChildProcessIO special value")
+
+	@property
+	def stdout(self):
+		"""The desired standard output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd
+		ChildProcessIO.INHERIT - use the parent process's standard output fd
+		ChildProcessIO.NULL - ignore output
+		A file-like object - the contents output by the process will be written to the object
+
+		It is the client's responsibility to make sure that standard output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		return self._stdout
+
+	@stdout.setter
+	def stdout(self, value):
+		if value is None:
+			value = ChildProcessIO.PIPE
+		if isinstance(value, io.IOBase) or value in ChildProcessIO:
+			self._stdout = value
+		else:
+			raise TypeError("Output can be redirected to a file-like object, or a ChildProcessIO special value")
+
+	@property
+	def stderr(self):
+		"""The desired standard error output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+		ChildProcessIO.INHERIT - use the parent process's standard error output fd
+		ChildProcessIO.NULL - ignore error output
+		A file-like object - the contents output by the process to stderr will be written to the object
+
+		It is the client's responsibility to make sure that standard error output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		return self._stderr
+
+	@stderr.setter
+	def stderr(self, value):
+		if value is None:
+			value = ChildProcessIO.PIPE
+		if isinstance(value, io.IOBase) or value in ChildProcessIO:
+			self._stderr = value
+		else:
+			raise TypeError("Error output can be redirected to a file-like object, or a ChildProcessIO special value")
+
+class PipelineBuilder():
+	"""A convenience wrapper for ChildProcessBuilder to construct a pipeline of processes with each's output piped to the next's input."""
+	def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+		if env is None:
+			env = dict(os.environ)
+		if cwd is None:
+			cwd = os.getcwd()
+		if stdin is None:
+			stdin = ChildProcessIO.PIPE
+		if stdout is None:
+			stdout = ChildProcessIO.PIPE
+		if stderr is None:
+			stderr = ChildProcessIO.PIPE
+		self.commands = commands
+		""" List of commands to execute. May be a list, or a string where commands are separated by pipe characters."""
+		self.env = env
+		""" Environment variable definitions. Shared by all processes in the pipeline"""
+		self.cwd = cwd
+		""" Current working directory. Shared by all processes in the pipeline """
+		self.stdin = stdin
+		""" Input to the first process in the pipeline """
+		self.stdout = stdout
+		""" Output destination for the last process in the pipeline """
+		self.stderr = stderr
+		""" Stderr output destination. Shared by all processes in the pipeline """
+
+	def spawn_all(self):
+		"""Create the processes for the pipeline.
+
+		Returns
+		-------
+		list
+			A list of the created processes in order
+		"""
+		res = []
+		next_input = self.stdin
+		builder = ChildProcessBuilder([], env=self.env, cwd=self.cwd, stderr=self.stderr)
+
+		for command in self.commands[:-1]:
+			builder.args = command
+			builder.stdin = next_input
+
+			proc = builder.spawn()
+			res.append(proc)
+			next_input = proc.stdout
+
+		builder.args = self.commands[-1]
+		builder.stdin = next_input
+		builder.stdout = self.stdout
+
+		proc = builder.spawn()
+		res.append(proc)
+
+		return res
+
+	@property
+	def commands(self):
+		"""The commands for the processes in the pipeline to execute.
+
+		Commands may be provided as a list where each will be provided to the 'args' parameter of the ChildProcessBuilder,
+		or as a string separated by pipe characters."""
+		return self._commands
+
+	@commands.setter
+	def commands(self, value):
+		if isinstance(value, str):
+			value = value.split("|")
+
+		if isinstance(value, list):
+			if not value:
+				raise ValueError("At least one command must be supplied")
+			self._commands = value
+		else:
+			raise TypeError("The commands should be supplied as a list or as a string with pipe characters")
+</code></pre>
+  </div>
+
+  </header>
+
+  <section id="section-items">
+
+
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="childprocess.ChildProcess" class="name">class <span class="ident">ChildProcess</span></p>
+      
+  
+    <div class="desc"><p>A child process.</p>
+<p>Should not be instantiated directly - instead, use ChildProcessBuilder.spawn() to get an instance.</p>
+<p>May be used with Python's <code>with</code> statement - upon the exit of the block, the process will be terminated non-forcefully.
+See <code>ChildProcess.terminate</code></p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess" class="source">
+    <pre><code>class ChildProcess():
+	"""A child process.
+
+	Should not be instantiated directly - instead, use ChildProcessBuilder.spawn() to get an instance.
+
+	May be used with Python's `with` statement - upon the exit of the block, the process will be terminated non-forcefully.
+	See `ChildProcess.terminate`"""
+	def __init__(self, args, env, cwd, stdin, stdout, stderr):
+		self._args = args
+		self._env = env
+		self._cwd = cwd
+
+		popen_stdin, deferred_input = self._make_stdin(stdin)
+		popen_stdout = self._make_stdout(stdout)
+		popen_stderr = self._make_stderr(stderr)
+
+		self._is_stopped = False
+		self._popen = subprocess.Popen(
+			args, cwd=cwd, env=env,
+			stdin=popen_stdin, stdout=popen_stdout, stderr=popen_stderr)
+
+		if deferred_input:
+			self._popen.stdin.write(deferred_input)
+
+	@property
+	def args(self):
+		"""The argument array provided upon the ChildProcess's creation. Read-only."""
+		return self._args
+
+	@property
+	def env(self):
+		"""The environment variable definitions provided upon the ChildProcess's creation. Read-only."""
+		return self._env
+
+	@property
+	def cwd(self):
+		"""The working directory of the ChildProcess, provided upon the ChildProcess's creation. Read-only."""
+		return self._cwd
+
+	@property
+	def pid(self):
+		"""The system's pid for the child process. Read-only."""
+		return self._popen.pid
+
+	@property
+	def exit_code(self):
+		"""Either the integer exit code of the child process, or None if it is still running. Read-only.
+
+		One can spin-wait for a child process to exit with `while process.exit_code is None`."""
+		self._popen.poll()
+		return self._popen.returncode
+
+	@property
+	def stdin(self):
+		"""The input stream for the child process, if it was created by ChildProcessIO.PIPE.
+
+		Also accessible if input was provided in string format.
+
+		Attempts to access an inaccessible child process file descriptor result in a RuntimeError."""
+		if not self._stdin_writeable:
+			raise RuntimeError("The process's stdin pipe is inaccessible")
+		return self._popen.stdin
+
+	@property
+	def stdout(self):
+		"""The output stream for the child process, if it was created by ChildProcessIO.PIPE.
+
+		Attempts to access an inaccessible child process file descriptor result in a RuntimeError."""
+		if not self._stdout_readable:
+			raise RuntimeError("The process's stdout pipe is inaccessible")
+		return self._popen.stdout
+
+	@property
+	def stderr(self):
+		"""The error output stream for the child process, if it was created by ChildProcessIO.PIPE.
+
+		Attempts to access an inaccessible child process file descriptor result in a RuntimeError."""
+		if not self._stderr_readable:
+			raise RuntimeError("The process's stderr pipe is inaccessible")
+		return self._popen.stderr
+
+	def _make_stdin(self, stdin):
+		if stdin == ChildProcessIO.PIPE:
+			self._stdin_writeable = True
+			return subprocess.PIPE, None
+		elif stdin == ChildProcessIO.INHERIT:
+			self._stdin_writeable = False
+			return sys.stdin, None
+		elif stdin == ChildProcessIO.NULL:
+			self._stdin_writeable = False
+			return open(os.devnull, 'r'), None
+		elif isinstance(stdin, io.IOBase):
+			self._stdin_writeable = False
+			return stdin, None
+		else:
+			self._stdin_writeable = True
+			return subprocess.PIPE, stdin
+
+	def _make_stdout(self, stdout):
+		if stdout == ChildProcessIO.PIPE or stdout == ChildProcessIO.STDOUT:
+			self._stdout_readable = True
+			return subprocess.PIPE
+		elif stdout == ChildProcessIO.INHERIT:
+			self._stdout_readable = False
+			return sys.stdout
+		elif stdout == ChildProcessIO.NULL:
+			self._stdout_readable = False
+			return open(os.devnull, 'w')
+		else:
+			self._stdout_readable = False
+			return stdout
+
+	def _make_stderr(self, stderr):
+		if stderr == ChildProcessIO.PIPE:
+			self._stderr_readable = True
+			return subprocess.PIPE
+		elif stderr == ChildProcessIO.STDOUT:
+			self._stderr_readable = False
+			return subprocess.STDOUT
+		elif stderr == ChildProcessIO.INHERIT:
+			self._stderr_readable = False
+			return sys.stderr
+		elif stderr == ChildProcessIO.NULL:
+			self._stderr_readable = False
+			return open(os.devnull, 'w')
+		else:
+			self._stderr_readable = False
+			return stderr
+
+	def start(self):
+		"""Resume execution of a process which has previously been stopped.
+
+		Requires platform support - if unsupported on this platform, raises an OSError."""
+		if not hasattr(signal, "SIGCONT"):
+			raise OSError("No platform support for stopping/starting processes")
+		self._is_stopped = False
+		self.kill(signal.SIGCONT)
+
+	def stop(self):
+		"""Suspend execution of a running process.
+
+		Requires platform support - if unsupported on this platform, raises an OSError."""
+		if not hasattr(signal, "SIGTSTP"):
+			raise OSError("No platform support for stopping/starting processes")
+		self.kill(signal.SIGTSTP)
+		self._is_stopped = True
+
+	def terminate(self, force=False):
+		"""Request that a process terminate execution.
+
+		Requests to terminate may be ignored by the child process, and may not be serviced
+		if the process is stopped. If this is undesirable, a process may be forced to exit
+		(even when stopped) by the `force` argument, though this may result in the process
+		failing to close open files or database connections.
+
+		Parameters
+		----------
+		force: bool, optional
+			Terminate the process immediately in a way that cannot be ignored.
+		"""
+		if force:
+			self._popen.kill()
+		else:
+			self._popen.terminate()
+
+	def is_running(self):
+		"""Return true if the process is executing, and false otherwise"""
+		return not (self.is_finished() or self.is_stopped())
+
+	def is_stopped(self):
+		"""Return true if the process is suspended but not yet finished, and false otherwise"""
+		return not self.is_finished() and self._is_stopped
+
+	def is_finished(self):
+		"""Return true if the process has exited, and false otherwise"""
+		return self.exit_code is not None
+
+	def wait_for_finish(self, timeout=None):
+		"""Block until the process finishes. May optionally wait up to a maximum length of time
+
+		If the process does not terminate after `timeout` seconds, raise a
+		`subprocess.TimeoutExpired` exception. It is safe to catch this exception and retry.
+
+		Returns the process.
+
+		Parameters
+		----------
+		timeout: int, optional
+			Amount of time in seconds to wait for the process to finish.
+
+		Returns
+		-------
+		ChildProcess
+			The process on which it was called, in order to enable 'fluent programming'
+		"""
+
+		self._popen.wait(timeout)
+
+	def kill(self, signal):
+		"""Send a signal to the process.
+
+		The available signals are defined in the `signal` module"""
+		self._popen.send_signal(signal)
+
+	def __enter__(self):
+		return self
+
+	def __exit__(self, type, value, traceback):
+		if not self.is_finished():
+			self._popen.kill()
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#childprocess.ChildProcess">ChildProcess</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, args, env, cwd, stdin, stdout, stderr)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.__init__" class="source">
+    <pre><code>def __init__(self, args, env, cwd, stdin, stdout, stderr):
+	self._args = args
+	self._env = env
+	self._cwd = cwd
+	popen_stdin, deferred_input = self._make_stdin(stdin)
+	popen_stdout = self._make_stdout(stdout)
+	popen_stderr = self._make_stderr(stderr)
+	self._is_stopped = False
+	self._popen = subprocess.Popen(
+		args, cwd=cwd, env=env,
+		stdin=popen_stdin, stdout=popen_stdout, stderr=popen_stderr)
+	if deferred_input:
+		self._popen.stdin.write(deferred_input)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.is_finished">
+    <p>def <span class="ident">is_finished</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return true if the process has exited, and false otherwise</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.is_finished', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.is_finished" class="source">
+    <pre><code>def is_finished(self):
+	"""Return true if the process has exited, and false otherwise"""
+	return self.exit_code is not None
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.is_running">
+    <p>def <span class="ident">is_running</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return true if the process is executing, and false otherwise</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.is_running', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.is_running" class="source">
+    <pre><code>def is_running(self):
+	"""Return true if the process is executing, and false otherwise"""
+	return not (self.is_finished() or self.is_stopped())
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.is_stopped">
+    <p>def <span class="ident">is_stopped</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return true if the process is suspended but not yet finished, and false otherwise</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.is_stopped', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.is_stopped" class="source">
+    <pre><code>def is_stopped(self):
+	"""Return true if the process is suspended but not yet finished, and false otherwise"""
+	return not self.is_finished() and self._is_stopped
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.kill">
+    <p>def <span class="ident">kill</span>(</p><p>self, signal)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Send a signal to the process.</p>
+<p>The available signals are defined in the <code>signal</code> module</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.kill', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.kill" class="source">
+    <pre><code>def kill(self, signal):
+	"""Send a signal to the process.
+	The available signals are defined in the `signal` module"""
+	self._popen.send_signal(signal)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.start">
+    <p>def <span class="ident">start</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Resume execution of a process which has previously been stopped.</p>
+<p>Requires platform support - if unsupported on this platform, raises an OSError.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.start', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.start" class="source">
+    <pre><code>def start(self):
+	"""Resume execution of a process which has previously been stopped.
+	Requires platform support - if unsupported on this platform, raises an OSError."""
+	if not hasattr(signal, "SIGCONT"):
+		raise OSError("No platform support for stopping/starting processes")
+	self._is_stopped = False
+	self.kill(signal.SIGCONT)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.stop">
+    <p>def <span class="ident">stop</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Suspend execution of a running process.</p>
+<p>Requires platform support - if unsupported on this platform, raises an OSError.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.stop', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.stop" class="source">
+    <pre><code>def stop(self):
+	"""Suspend execution of a running process.
+	Requires platform support - if unsupported on this platform, raises an OSError."""
+	if not hasattr(signal, "SIGTSTP"):
+		raise OSError("No platform support for stopping/starting processes")
+	self.kill(signal.SIGTSTP)
+	self._is_stopped = True
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.terminate">
+    <p>def <span class="ident">terminate</span>(</p><p>self, force=False)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Request that a process terminate execution.</p>
+<p>Requests to terminate may be ignored by the child process, and may not be serviced
+if the process is stopped. If this is undesirable, a process may be forced to exit
+(even when stopped) by the <code>force</code> argument, though this may result in the process
+failing to close open files or database connections.</p>
+<h2>Parameters</h2>
+<p>force: bool, optional
+        Terminate the process immediately in a way that cannot be ignored.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.terminate', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.terminate" class="source">
+    <pre><code>def terminate(self, force=False):
+	"""Request that a process terminate execution.
+	Requests to terminate may be ignored by the child process, and may not be serviced
+	if the process is stopped. If this is undesirable, a process may be forced to exit
+	(even when stopped) by the `force` argument, though this may result in the process
+	failing to close open files or database connections.
+	Parameters
+	----------
+	force: bool, optional
+		Terminate the process immediately in a way that cannot be ignored.
+	"""
+	if force:
+		self._popen.kill()
+	else:
+		self._popen.terminate()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcess.wait_for_finish">
+    <p>def <span class="ident">wait_for_finish</span>(</p><p>self, timeout=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Block until the process finishes. May optionally wait up to a maximum length of time</p>
+<p>If the process does not terminate after <code>timeout</code> seconds, raise a
+<code>subprocess.TimeoutExpired</code> exception. It is safe to catch this exception and retry.</p>
+<p>Returns the process.</p>
+<h2>Parameters</h2>
+<p>timeout: int, optional
+        Amount of time in seconds to wait for the process to finish.</p>
+<h2>Returns</h2>
+<p>ChildProcess
+        The process on which it was called, in order to enable 'fluent programming'</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcess.wait_for_finish', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcess.wait_for_finish" class="source">
+    <pre><code>def wait_for_finish(self, timeout=None):
+	"""Block until the process finishes. May optionally wait up to a maximum length of time
+	If the process does not terminate after `timeout` seconds, raise a
+	`subprocess.TimeoutExpired` exception. It is safe to catch this exception and retry.
+	Returns the process.
+	Parameters
+	----------
+	timeout: int, optional
+		Amount of time in seconds to wait for the process to finish.
+	Returns
+	-------
+	ChildProcess
+		The process on which it was called, in order to enable 'fluent programming'
+	"""
+	self._popen.wait(timeout)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="childprocess.ChildProcess.args" class="name">var <span class="ident">args</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The argument array provided upon the ChildProcess's creation. Read-only.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.cwd" class="name">var <span class="ident">cwd</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The working directory of the ChildProcess, provided upon the ChildProcess's creation. Read-only.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.env" class="name">var <span class="ident">env</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The environment variable definitions provided upon the ChildProcess's creation. Read-only.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.exit_code" class="name">var <span class="ident">exit_code</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Either the integer exit code of the child process, or None if it is still running. Read-only.</p>
+<p>One can spin-wait for a child process to exit with <code>while process.exit_code is None</code>.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.pid" class="name">var <span class="ident">pid</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The system's pid for the child process. Read-only.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.stderr" class="name">var <span class="ident">stderr</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The error output stream for the child process, if it was created by ChildProcessIO.PIPE.</p>
+<p>Attempts to access an inaccessible child process file descriptor result in a RuntimeError.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.stdin" class="name">var <span class="ident">stdin</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The input stream for the child process, if it was created by ChildProcessIO.PIPE.</p>
+<p>Also accessible if input was provided in string format.</p>
+<p>Attempts to access an inaccessible child process file descriptor result in a RuntimeError.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcess.stdout" class="name">var <span class="ident">stdout</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The output stream for the child process, if it was created by ChildProcessIO.PIPE.</p>
+<p>Attempts to access an inaccessible child process file descriptor result in a RuntimeError.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="childprocess.ChildProcessBuilder" class="name">class <span class="ident">ChildProcessBuilder</span></p>
+      
+  
+    <div class="desc"><p>Builder to obtain instances of ChildProcess.</p>
+<p>One ChildProcessBuilder may be used to obtain any number of ChildProcess instances.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcessBuilder', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcessBuilder" class="source">
+    <pre><code>class ChildProcessBuilder():
+	"""Builder to obtain instances of ChildProcess.
+
+	One ChildProcessBuilder may be used to obtain any number of ChildProcess instances."""
+	def __init__(self, args, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+		"""Initialize the attributes of the builder.
+
+		Refer to documentation for each attribute for their default behavior and the particulars of their usage.
+
+		Parameters
+		----------
+		`args`: required. The desired value of the arguments (see ChildProcessBuilder.args).
+
+		`env`: optional. The desired environment variable definitions (see ChildProcessBuilder.env).
+
+		`cwd`: optional. The desired current working directory (see ChildProcessBuilder.cwd).
+
+		`stdin`: optional. The desired standard input (see ChildProcessBuilder.stdin).
+
+		`stdout`: optional. The desired standard output (see ChildProcessBuilder.stdout).
+
+		`stderr`: optional. The desired standard error output (see ChildProcessBuilder.stderr).
+		"""
+		self.args = args
+		"""The arguments with which the child process will be created, as a list of string tokens.
+
+		As is convention, args[0] is the name of the executable that should be invoked.
+
+		May be provided as a List of tokens, each of which will be converted to a string.
+		May be provided as a string, which will be tokenized in a Posix-compatible manner."""
+		self.env = env
+		"""Definitions of environment variables with which the child process will be created.
+
+		The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+		The default behavior is to inherit the environment variable definitions from its parent process.
+
+		May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+		be provided.
+		"""
+		self.cwd = cwd
+		"""The current working directory for the child process.
+
+		The basis of any relative paths used by the child process.
+		The default behavior is to inherit the current working directory from its parent process.
+
+		May be provided in a format convertible to a normalized `os.path`"""
+		self.stdin = stdin
+		"""The desired standard input creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard input fd
+
+		ChildProcessIO.NULL - provide null input (EOF)
+
+		A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+
+		A file-like object - the contents read from the object will be provided to the process as input
+
+		It is the client's responsibility to make sure that standard input is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		self.stdout = stdout
+		"""The desired standard output creation behavior for the child process.
+
+		Values include:
+
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd
+
+		ChildProcessIO.INHERIT - use the parent process's standard output fd
+
+		ChildProcessIO.NULL - ignore output
+
+		A file-like object - the contents output by the process will be written to the object
+
+		It is the client's responsibility to make sure that standard output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		self.stderr = stderr
+		"""The desired standard error output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+		ChildProcessIO.INHERIT - use the parent process's standard error output fd
+		ChildProcessIO.NULL - ignore error output
+		A file-like object - the contents output by the process to stderr will be written to the object
+
+		It is the client's responsibility to make sure that standard error output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+
+	def spawn(self):
+		"""Create a child process from the current ChildProcessBuilder attributes.
+
+		Returns
+		-------
+		ChildProcess
+			The spawned ChildProcess
+		"""
+		return ChildProcess(self.args, self.env, self.cwd, self.stdin, self.stdout, self.stderr)
+
+	@property
+	def args(self) -> List[str]:
+		"""The arguments with which the child process will be created, as a list of string tokens.
+
+		As is convention, args[0] is the name of the executable that should be invoked.
+
+		May be provided as a List of tokens, each of which will be converted to a string.
+		May be provided as a string, which will be tokenized in a Posix-compatible manner."""
+		return self._args
+
+	@args.setter
+	def args(self, value: Union[str, List, Tuple]):
+		if isinstance(value, str):
+			self._args = shlex.split(value)
+		elif isinstance(value, list) or isinstance(value, tuple):
+			try:
+				self._args = [str(obj) for obj in value]
+			except:
+				raise TypeError("Arguments must be convertible to strings")
+
+	@property
+	def env(self) -> Dict[str, str]:
+		"""Definitions of environment variables with which the child process will be created.
+
+		The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+		The default behavior is to inherit the environment variable definitions from its parent process.
+
+		May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+		be provided.
+		"""
+		return self._env
+
+	@env.setter
+	def env(self, value: Dict[str, str]):
+		if value is None:
+			value = dict(os.environ)
+		if isinstance(value, dict):
+			try:
+				self._env = {str(k):str(v) for k,v in value.items()}
+			except:
+				raise TypeError("Environment variable names and values must be convertible to strings")
+		else:
+			raise TypeError("Environment variable definitions must be a dictionary")
+
+	@property
+	def cwd(self):
+		"""The current working directory for the child process.
+
+		The basis of any relative paths used by the child process.
+		The default behavior is to inherit the current working directory from its parent process.
+
+		May be provided in a format convertible to a normalized `os.path`"""
+		return self._cwd
+
+	@cwd.setter
+	def cwd(self, value):
+		if value is None:
+			value = os.getcwd()
+		try:
+			self._cwd = os.path.normpath(value)
+		except:
+			raise TypeError("Child process's current working directory must be a path-like object")
+
+	@property
+	def stdin(self):
+		"""The desired standard input creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+		ChildProcessIO.INHERIT - use the parent process's standard input fd
+		ChildProcessIO.NULL - provide null input (EOF)
+		A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+		A file-like object - the contents read from the object will be provided to the process as input
+
+		It is the client's responsibility to make sure that standard input is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		return self._stdin
+
+	@stdin.setter
+	def stdin(self, value):
+		if value is None:
+			value = ChildProcessIO.PIPE
+		if isinstance(value, io.BufferedReader):
+			self._stdin = value.raw
+		elif isinstance(value, str) or isinstance(value, io.IOBase):
+			self._stdin = value
+		elif value in ChildProcessIO:
+			if value == ChildProcessIO.STDOUT:
+				raise ValueError("Cannot pipe a process's output to its own input")
+			else:
+				self._stdin = value
+		else:
+			raise TypeError("Input can be redirected from a string, a file-like object, or a ChildProcessIO special value")
+
+	@property
+	def stdout(self):
+		"""The desired standard output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd
+		ChildProcessIO.INHERIT - use the parent process's standard output fd
+		ChildProcessIO.NULL - ignore output
+		A file-like object - the contents output by the process will be written to the object
+
+		It is the client's responsibility to make sure that standard output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		return self._stdout
+
+	@stdout.setter
+	def stdout(self, value):
+		if value is None:
+			value = ChildProcessIO.PIPE
+		if isinstance(value, io.IOBase) or value in ChildProcessIO:
+			self._stdout = value
+		else:
+			raise TypeError("Output can be redirected to a file-like object, or a ChildProcessIO special value")
+
+	@property
+	def stderr(self):
+		"""The desired standard error output creation behavior for the child process.
+
+		Values include:
+		ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+		ChildProcessIO.INHERIT - use the parent process's standard error output fd
+		ChildProcessIO.NULL - ignore error output
+		A file-like object - the contents output by the process to stderr will be written to the object
+
+		It is the client's responsibility to make sure that standard error output is used in a safe manner.
+		Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+		return self._stderr
+
+	@stderr.setter
+	def stderr(self, value):
+		if value is None:
+			value = ChildProcessIO.PIPE
+		if isinstance(value, io.IOBase) or value in ChildProcessIO:
+			self._stderr = value
+		else:
+			raise TypeError("Error output can be redirected to a file-like object, or a ChildProcessIO special value")
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#childprocess.ChildProcessBuilder">ChildProcessBuilder</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcessBuilder.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, args, env=None, cwd=None, stdin=None, stdout=None, stderr=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize the attributes of the builder.</p>
+<p>Refer to documentation for each attribute for their default behavior and the particulars of their usage.</p>
+<h2>Parameters</h2>
+<p><code>args</code>: required. The desired value of the arguments (see ChildProcessBuilder.args).</p>
+<p><code>env</code>: optional. The desired environment variable definitions (see ChildProcessBuilder.env).</p>
+<p><code>cwd</code>: optional. The desired current working directory (see ChildProcessBuilder.cwd).</p>
+<p><code>stdin</code>: optional. The desired standard input (see ChildProcessBuilder.stdin).</p>
+<p><code>stdout</code>: optional. The desired standard output (see ChildProcessBuilder.stdout).</p>
+<p><code>stderr</code>: optional. The desired standard error output (see ChildProcessBuilder.stderr).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcessBuilder.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcessBuilder.__init__" class="source">
+    <pre><code>def __init__(self, args, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+	"""Initialize the attributes of the builder.
+	Refer to documentation for each attribute for their default behavior and the particulars of their usage.
+	Parameters
+	----------
+	`args`: required. The desired value of the arguments (see ChildProcessBuilder.args).
+	`env`: optional. The desired environment variable definitions (see ChildProcessBuilder.env).
+	`cwd`: optional. The desired current working directory (see ChildProcessBuilder.cwd).
+	`stdin`: optional. The desired standard input (see ChildProcessBuilder.stdin).
+	`stdout`: optional. The desired standard output (see ChildProcessBuilder.stdout).
+	`stderr`: optional. The desired standard error output (see ChildProcessBuilder.stderr).
+	"""
+	self.args = args
+	"""The arguments with which the child process will be created, as a list of string tokens.
+	As is convention, args[0] is the name of the executable that should be invoked.
+	May be provided as a List of tokens, each of which will be converted to a string.
+	May be provided as a string, which will be tokenized in a Posix-compatible manner."""
+	self.env = env
+	"""Definitions of environment variables with which the child process will be created.
+	The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+	The default behavior is to inherit the environment variable definitions from its parent process.
+	May be modified in-place by dictionary methods (`builder.env[key] = value`), or a new dictionary may
+	be provided.
+	"""
+	self.cwd = cwd
+	"""The current working directory for the child process.
+	The basis of any relative paths used by the child process.
+	The default behavior is to inherit the current working directory from its parent process.
+	May be provided in a format convertible to a normalized `os.path`"""
+	self.stdin = stdin
+	"""The desired standard input creation behavior for the child process.
+	Values include:
+	ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd
+	ChildProcessIO.INHERIT - use the parent process's standard input fd
+	ChildProcessIO.NULL - provide null input (EOF)
+	A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation
+	A file-like object - the contents read from the object will be provided to the process as input
+	It is the client's responsibility to make sure that standard input is used in a safe manner.
+	Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+	self.stdout = stdout
+	"""The desired standard output creation behavior for the child process.
+	Values include:
+	ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd
+	ChildProcessIO.INHERIT - use the parent process's standard output fd
+	ChildProcessIO.NULL - ignore output
+	A file-like object - the contents output by the process will be written to the object
+	It is the client's responsibility to make sure that standard output is used in a safe manner.
+	Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+	self.stderr = stderr
+	"""The desired standard error output creation behavior for the child process.
+	Values include:
+	ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+	ChildProcessIO.INHERIT - use the parent process's standard error output fd
+	ChildProcessIO.NULL - ignore error output
+	A file-like object - the contents output by the process to stderr will be written to the object
+	It is the client's responsibility to make sure that standard error output is used in a safe manner.
+	Particular concerns include the limitations of system I/O buffers and the safe sharing of files."""
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.ChildProcessBuilder.spawn">
+    <p>def <span class="ident">spawn</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Create a child process from the current ChildProcessBuilder attributes.</p>
+<h2>Returns</h2>
+<p>ChildProcess
+        The spawned ChildProcess</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcessBuilder.spawn', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcessBuilder.spawn" class="source">
+    <pre><code>def spawn(self):
+	"""Create a child process from the current ChildProcessBuilder attributes.
+	Returns
+	-------
+	ChildProcess
+		The spawned ChildProcess
+	"""
+	return ChildProcess(self.args, self.env, self.cwd, self.stdin, self.stdout, self.stderr)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="childprocess.ChildProcessBuilder.args" class="name">var <span class="ident">args</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The arguments with which the child process will be created, as a list of string tokens.</p>
+<p>As is convention, args[0] is the name of the executable that should be invoked.</p>
+<p>May be provided as a List of tokens, each of which will be converted to a string.
+May be provided as a string, which will be tokenized in a Posix-compatible manner.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessBuilder.cwd" class="name">var <span class="ident">cwd</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The current working directory for the child process.</p>
+<p>The basis of any relative paths used by the child process.
+The default behavior is to inherit the current working directory from its parent process.</p>
+<p>May be provided in a format convertible to a normalized <code>os.path</code></p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessBuilder.env" class="name">var <span class="ident">env</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Definitions of environment variables with which the child process will be created.</p>
+<p>The environment variables are a mapping of KEY to VALUE, where both KEY and VALUE are strings.
+The default behavior is to inherit the environment variable definitions from its parent process.</p>
+<p>May be modified in-place by dictionary methods (<code>builder.env[key] = value</code>), or a new dictionary may
+be provided.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessBuilder.stderr" class="name">var <span class="ident">stderr</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The desired standard error output creation behavior for the child process.</p>
+<p>Values include:
+ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stderr fd
+ChildProcessIO.INHERIT - use the parent process's standard error output fd
+ChildProcessIO.NULL - ignore error output
+A file-like object - the contents output by the process to stderr will be written to the object</p>
+<p>It is the client's responsibility to make sure that standard error output is used in a safe manner.
+Particular concerns include the limitations of system I/O buffers and the safe sharing of files.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessBuilder.stdin" class="name">var <span class="ident">stdin</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The desired standard input creation behavior for the child process.</p>
+<p>Values include:</p>
+<p>ChildProcessIO.PIPE (default) - open a parent-accessible writeable pipe to the stdin fd</p>
+<p>ChildProcessIO.INHERIT - use the parent process's standard input fd</p>
+<p>ChildProcessIO.NULL - provide null input (EOF)</p>
+<p>A Python string - Open a PIPE to the stdin fd, and write the contents of the string upon creation</p>
+<p>A file-like object - the contents read from the object will be provided to the process as input</p>
+<p>It is the client's responsibility to make sure that standard input is used in a safe manner.
+Particular concerns include the limitations of system I/O buffers and the safe sharing of files.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessBuilder.stdout" class="name">var <span class="ident">stdout</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The desired standard output creation behavior for the child process.</p>
+<p>Values include:</p>
+<p>ChildProcessIO.PIPE (default) - open a parent-accessible readable pipe to the stdout fd</p>
+<p>ChildProcessIO.INHERIT - use the parent process's standard output fd</p>
+<p>ChildProcessIO.NULL - ignore output</p>
+<p>A file-like object - the contents output by the process will be written to the object</p>
+<p>It is the client's responsibility to make sure that standard output is used in a safe manner.
+Particular concerns include the limitations of system I/O buffers and the safe sharing of files.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="childprocess.ChildProcessIO" class="name">class <span class="ident">ChildProcessIO</span></p>
+      
+  
+    <div class="desc"><p>The desired creation behavior for a ChildProcess's standard input/output/error file descriptors.</p>
+<p>Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr.</p>
+<p>Values:</p>
+<p>PIPE - Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr</p>
+<p>INHERIT - Upon creation, inherit the corresponding I/O stream from the parent process</p>
+<p>NULL - Provide empty input, or ignore output</p>
+<p>STDOUT - Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.ChildProcessIO', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.ChildProcessIO" class="source">
+    <pre><code>class ChildProcessIO(Enum):
+	"""The desired creation behavior for a ChildProcess's standard input/output/error file descriptors.
+
+	Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr.
+
+	Values:
+
+	PIPE - Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr
+
+	INHERIT - Upon creation, inherit the corresponding I/O stream from the parent process
+
+	NULL - Provide empty input, or ignore output
+
+	STDOUT - Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr"""
+	PIPE = 1
+	INHERIT = 2
+	NULL = 3
+	STDOUT = 4
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#childprocess.ChildProcessIO">ChildProcessIO</a></li>
+          <li>enum.Enum</li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Class variables</h3>
+            <div class="item">
+            <p id="childprocess.ChildProcessIO.INHERIT" class="name">var <span class="ident">INHERIT</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessIO.NULL" class="name">var <span class="ident">NULL</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessIO.PIPE" class="name">var <span class="ident">PIPE</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessIO.STDOUT" class="name">var <span class="ident">STDOUT</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessIO.name" class="name">var <span class="ident">name</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.ChildProcessIO.value" class="name">var <span class="ident">value</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="childprocess.PipelineBuilder" class="name">class <span class="ident">PipelineBuilder</span></p>
+      
+  
+    <div class="desc"><p>A convenience wrapper for ChildProcessBuilder to construct a pipeline of processes with each's output piped to the next's input.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.PipelineBuilder', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.PipelineBuilder" class="source">
+    <pre><code>class PipelineBuilder():
+	"""A convenience wrapper for ChildProcessBuilder to construct a pipeline of processes with each's output piped to the next's input."""
+	def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+		if env is None:
+			env = dict(os.environ)
+		if cwd is None:
+			cwd = os.getcwd()
+		if stdin is None:
+			stdin = ChildProcessIO.PIPE
+		if stdout is None:
+			stdout = ChildProcessIO.PIPE
+		if stderr is None:
+			stderr = ChildProcessIO.PIPE
+		self.commands = commands
+		""" List of commands to execute. May be a list, or a string where commands are separated by pipe characters."""
+		self.env = env
+		""" Environment variable definitions. Shared by all processes in the pipeline"""
+		self.cwd = cwd
+		""" Current working directory. Shared by all processes in the pipeline """
+		self.stdin = stdin
+		""" Input to the first process in the pipeline """
+		self.stdout = stdout
+		""" Output destination for the last process in the pipeline """
+		self.stderr = stderr
+		""" Stderr output destination. Shared by all processes in the pipeline """
+
+	def spawn_all(self):
+		"""Create the processes for the pipeline.
+
+		Returns
+		-------
+		list
+			A list of the created processes in order
+		"""
+		res = []
+		next_input = self.stdin
+		builder = ChildProcessBuilder([], env=self.env, cwd=self.cwd, stderr=self.stderr)
+
+		for command in self.commands[:-1]:
+			builder.args = command
+			builder.stdin = next_input
+
+			proc = builder.spawn()
+			res.append(proc)
+			next_input = proc.stdout
+
+		builder.args = self.commands[-1]
+		builder.stdin = next_input
+		builder.stdout = self.stdout
+
+		proc = builder.spawn()
+		res.append(proc)
+
+		return res
+
+	@property
+	def commands(self):
+		"""The commands for the processes in the pipeline to execute.
+
+		Commands may be provided as a list where each will be provided to the 'args' parameter of the ChildProcessBuilder,
+		or as a string separated by pipe characters."""
+		return self._commands
+
+	@commands.setter
+	def commands(self, value):
+		if isinstance(value, str):
+			value = value.split("|")
+
+		if isinstance(value, list):
+			if not value:
+				raise ValueError("At least one command must be supplied")
+			self._commands = value
+		else:
+			raise TypeError("The commands should be supplied as a list or as a string with pipe characters")
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#childprocess.PipelineBuilder">PipelineBuilder</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="childprocess.PipelineBuilder.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.PipelineBuilder.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.PipelineBuilder.__init__" class="source">
+    <pre><code>def __init__(self, commands, env=None, cwd=None, stdin=None, stdout=None, stderr=None):
+	if env is None:
+		env = dict(os.environ)
+	if cwd is None:
+		cwd = os.getcwd()
+	if stdin is None:
+		stdin = ChildProcessIO.PIPE
+	if stdout is None:
+		stdout = ChildProcessIO.PIPE
+	if stderr is None:
+		stderr = ChildProcessIO.PIPE
+	self.commands = commands
+	""" List of commands to execute. May be a list, or a string where commands are separated by pipe characters."""
+	self.env = env
+	""" Environment variable definitions. Shared by all processes in the pipeline"""
+	self.cwd = cwd
+	""" Current working directory. Shared by all processes in the pipeline """
+	self.stdin = stdin
+	""" Input to the first process in the pipeline """
+	self.stdout = stdout
+	""" Output destination for the last process in the pipeline """
+	self.stderr = stderr
+	""" Stderr output destination. Shared by all processes in the pipeline """
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="childprocess.PipelineBuilder.spawn_all">
+    <p>def <span class="ident">spawn_all</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Create the processes for the pipeline.</p>
+<h2>Returns</h2>
+<p>list
+        A list of the created processes in order</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-childprocess.PipelineBuilder.spawn_all', this);">Show source &equiv;</a></p>
+  <div id="source-childprocess.PipelineBuilder.spawn_all" class="source">
+    <pre><code>def spawn_all(self):
+	"""Create the processes for the pipeline.
+	Returns
+	-------
+	list
+		A list of the created processes in order
+	"""
+	res = []
+	next_input = self.stdin
+	builder = ChildProcessBuilder([], env=self.env, cwd=self.cwd, stderr=self.stderr)
+	for command in self.commands[:-1]:
+		builder.args = command
+		builder.stdin = next_input
+		proc = builder.spawn()
+		res.append(proc)
+		next_input = proc.stdout
+	builder.args = self.commands[-1]
+	builder.stdin = next_input
+	builder.stdout = self.stdout
+	proc = builder.spawn()
+	res.append(proc)
+	return res
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="childprocess.PipelineBuilder.commands" class="name">var <span class="ident">commands</span></p>
+            
+
+            
+  
+    <div class="desc"><p>List of commands to execute. May be a list, or a string where commands are separated by pipe characters.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.PipelineBuilder.cwd" class="name">var <span class="ident">cwd</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Current working directory. Shared by all processes in the pipeline</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.PipelineBuilder.env" class="name">var <span class="ident">env</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Environment variable definitions. Shared by all processes in the pipeline</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.PipelineBuilder.stderr" class="name">var <span class="ident">stderr</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Stderr output destination. Shared by all processes in the pipeline</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.PipelineBuilder.stdin" class="name">var <span class="ident">stdin</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Input to the first process in the pipeline</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="childprocess.PipelineBuilder.stdout" class="name">var <span class="ident">stdout</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Output destination for the last process in the pipeline</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+
+  </section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>
