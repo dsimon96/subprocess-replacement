@@ -10,11 +10,17 @@ from typing import Dict, List, Tuple, Union
 class ChildProcessIO(Enum):
 	"""The desired creation behavior for a ChildProcess's standard input/output/error file descriptors.
 
-	Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr."""
-	PIPE = 1 """Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr"""
-	INHERIT = 2 """Upon creation, inherit the corresponding I/O stream from the parent process"""
-	NULL = 3 """Provide empty input, or ignore output"""
-	STDOUT = 4 """Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr"""
+	Can be supplied to ChildProcessBuilder.stdin, ChildProcessBuidler.stdout, or ChildProcessBuilder.stderr.
+	
+	Values:
+	PIPE - Open a pipe to the I/O stream, and make it accessible via ChildProcess.stdin/stdout/stderr
+	INHERIT - Upon creation, inherit the corresponding I/O stream from the parent process
+	NULL - Provide empty input, or ignore output
+	STDOUT - Redirect STDERR to the same file descriptor as STDOUT. Only valid for ChildProcessBuilder.stderr"""
+	PIPE = 1
+	INHERIT = 2
+	NULL = 3
+	STDOUT = 4
 
 class ChildProcess():
 	"""A child process.
@@ -195,6 +201,8 @@ class ChildProcess():
 
 		If the process does not terminate after `timeout` seconds, raise a
 		`subprocess.TimeoutExpired` exception. It is safe to catch this exception and retry.
+
+		Returns the process.
 		
 		:param timeout: Amount of time in seconds to wait for the process to finish."""
 		self._popen.wait(timeout)
@@ -236,7 +244,7 @@ class ChildProcessBuilder():
 		self.stderr = stderr
 
 	def spawn(self):
-		"""Create a child process from the current ChildProcessBuilder attributes."""
+		"""Create a child process from the current ChildProcessBuilder attributes. Returns the spawned ChildProcess."""
 		return ChildProcess(self.args, self.env, self.cwd, self.stdin, self.stdout, self.stderr)
 
 	@property
